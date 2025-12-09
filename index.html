@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4D অ্যানিমেশন লগইন সিস্টেম</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #1a237e, #311b92, #4a148c, #880e4f);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff4081, #7c4dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            width: 100%;
+            perspective: 1000px;
+        }
+
+        .form-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .form-box:hover {
+            transform: translateY(-10px) rotateX(5deg);
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #e1bee7;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .form-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #7c4dff, #ff4081);
+            border-radius: 3px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #bbbbbb;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #7c4dff;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(124, 77, 255, 0.3);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #7c4dff;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #7c4dff, #ff4081);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #6a40e0, #e91e63);
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #bbbbbb;
+        }
+
+        .switch-form a {
+            color: #7c4dff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .switch-form a:hover {
+            color: #ff4081;
+            text-decoration: underline;
+        }
+
+        .admin-link {
+            margin-top: 40px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .admin-link a {
+            color: #ff9800;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 25px;
+            border: 2px solid #ff9800;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-link a:hover {
+            background: rgba(255, 152, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-objects {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-object {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 15s infinite linear;
+        }
+
+        .floating-object:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-object:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .floating-object:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .floating-object:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            bottom: 10%;
+            right: 20%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateY(-20px) rotate(90deg);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(0) rotate(180deg);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translateY(20px) rotate(270deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .form-box {
+                width: 90%;
+                max-width: 350px;
+            }
+        }
+
+        .success-message {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-objects">
+        <div class="floating-object"></div>
+        <div class="floating-object"></div>
+        <div class="floating-object"></div>
+        <div class="floating-object"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">4D লগইন সিস্টেম</h1>
+            <p class="tagline">নিরাপদ এবং আধুনিক লগইন অভিজ্ঞতা</p>
+        </div>
+
+        <div class="form-container">
+            <!-- লগইন ফর্ম -->
+            <div class="form-box" id="loginForm">
+                <h2 class="form-title">ব্যবহারকারী লগইন</h2>
+                <div class="success-message" id="loginSuccess"></div>
+                <div class="error-message" id="loginError"></div>
+                <form id="loginFormElement">
+                    <div class="input-group">
+                        <label for="loginEmail">ইমেইল ঠিকানা</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" required placeholder="আপনার ইমেইল দিন">
+                    </div>
+                    <div class="input-group">
+                        <label for="loginPassword">পাসওয়ার্ড</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" required placeholder="আপনার পাসওয়ার্ড দিন">
+                    </div>
+                    <button type="submit" class="btn">লগইন করুন</button>
+                </form>
+                <div class="switch-form">
+                    <p>আপনার অ্যাকাউন্ট নেই? <a href="#" id="showRegister">রেজিস্ট্রেশন করুন</a></p>
+                </div>
+            </div>
+
+            <!-- রেজিস্ট্রেশন ফর্ম -->
+            <div class="form-box hidden" id="registerForm">
+                <h2 class="form-title">নতুন অ্যাকাউন্ট তৈরি</h2>
+                <div class="success-message" id="registerSuccess"></div>
+                <div class="error-message" id="registerError"></div>
+                <form id="registerFormElement">
+                    <div class="input-group">
+                        <label for="registerName">পূর্ণ নাম</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" required placeholder="আপনার পূর্ণ নাম দিন">
+                    </div>
+                    <div class="input-group">
+                        <label for="registerEmail">ইমেইল ঠিকানা</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" required placeholder="আপনার ইমেইল দিন">
+                    </div>
+                    <div class="input-group">
+                        <label for="registerPassword">পাসওয়ার্ড</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" required placeholder="পাসওয়ার্ড তৈরি করুন">
+                    </div>
+                    <div class="input-group">
+                        <label for="registerConfirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerConfirmPassword" required placeholder="পাসওয়ার্ড পুনরায় দিন">
+                    </div>
+                    <button type="submit" class="btn">রেজিস্ট্রেশন করুন</button>
+                </form>
+                <div class="switch-form">
+                    <p>ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="#" id="showLogin">লগইন করুন</a></p>
+                </div>
+            </div>
+
+            <!-- অ্যাডমিন লগইন ফর্ম -->
+            <div class="form-box hidden" id="adminForm">
+                <h2 class="form-title">অ্যাডমিন লগইন</h2>
+                <div class="success-message" id="adminSuccess"></div>
+                <div class="error-message" id="adminError"></div>
+                <form id="adminFormElement">
+                    <div class="input-group">
+                        <label for="adminUsername">অ্যাডমিন ইউজারনেম</label>
+                        <i class="fas fa-user-shield"></i>
+                        <input type="text" id="adminUsername" required placeholder="অ্যাডমিন ইউজারনেম">
+                    </div>
+                    <div class="input-group">
+                        <label for="adminPassword">অ্যাডমিন পাসওয়ার্ড</label>
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="adminPassword" required placeholder="অ্যাডমিন পাসওয়ার্ড">
+                    </div>
+                    <button type="submit" class="btn">অ্যাডমিন লগইন</button>
+                </form>
+                <div class="switch-form">
+                    <p>ব্যবহারকারী লগইন করতে? <a href="#" id="showUserLogin">ব্যবহারকারী লগইন</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-link">
+            <a href="#" id="showAdmin"><i class="fas fa-cogs"></i> অ্যাডমিন লগইন প্যানেল</a>
+        </div>
+    </div>
+
+    <script>
+        // DOM এলিমেন্ট নির্বাচন
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const adminForm = document.getElementById('adminForm');
+        const showRegisterLink = document.getElementById('showRegister');
+        const showLoginLink = document.getElementById('showLogin');
+        const showAdminLink = document.getElementById('showAdmin');
+        const showUserLoginLink = document.getElementById('showUserLogin');
+        
+        // ফর্ম শো/হাইড ফাংশন
+        showRegisterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+            adminForm.classList.add('hidden');
+        });
+
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            adminForm.classList.add('hidden');
+        });
+
+        showAdminLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+            adminForm.classList.remove('hidden');
+        });
+
+        showUserLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            adminForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
+
+        // লগইন ফর্ম সাবমিশন
+        document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // সহজ ভ্যালিডেশন
+            if(email === "" || password === "") {
+                showError('loginError', 'দয়া করে সকল তথ্য প্রদান করুন');
+                return;
+            }
+            
+            // ডেমো লগইন (প্রকৃত অ্যাপ্লিকেশনে সার্ভার ভ্যালিডেশন প্রয়োজন)
+            if(email === "user@example.com" && password === "password123") {
+                showSuccess('loginSuccess', 'লগইন সফল! ড্যাশবোর্ডে রিডাইরেক্ট হচ্ছে...');
+                // প্রকৃত অ্যাপে রিডাইরেক্ট কোড থাকবে
+                setTimeout(() => {
+                    alert('লগইন সফল! প্রকৃত অ্যাপ্লিকেশনে এখানে ড্যাশবোর্ডে রিডাইরেক্ট হবে।');
+                }, 1500);
+            } else {
+                showSuccess('loginSuccess', 'ডেমো মোড: যেকোনো ইমেইল/পাসওয়ার্ড কাজ করবে');
+                // প্রকৃত অ্যাপে এরর দেখাবে
+                // showError('loginError', 'ভুল ইমেইল বা পাসওয়ার্ড');
+            }
+        });
+
+        // রেজিস্ট্রেশন ফর্ম সাবমিশন
+        document.getElementById('registerFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            // ভ্যালিডেশন
+            if(name === "" || email === "" || password === "" || confirmPassword === "") {
+                showError('registerError', 'দয়া করে সকল তথ্য প্রদান করুন');
+                return;
+            }
+            
+            if(password !== confirmPassword) {
+                showError('registerError', 'পাসওয়ার্ড মিলছে না');
+                return;
+            }
+            
+            if(password.length < 6) {
+                showError('registerError', 'পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে');
+                return;
+            }
+            
+            // ডেমো রেজিস্ট্রেশন সফল মেসেজ
+            showSuccess('registerSuccess', `রেজিস্ট্রেশন সফল! ${name}, আপনার অ্যাকাউন্ট তৈরি হয়েছে।`);
+            
+            // অটোমেটিক লগইন ফর্মে সুইচ
+            setTimeout(() => {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPassword').value = password;
+            }, 2000);
+        });
+
+        // অ্যাডমিন লগইন ফর্ম সাবমিশন
+        document.getElementById('adminFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // ভ্যালিডেশন
+            if(username === "" || password === "") {
+                showError('adminError', 'দয়া করে অ্যাডমিন তথ্য প্রদান করুন');
+                return;
+            }
+            
+            // ডেমো অ্যাডমিন লগইন (প্রকৃত অ্যাপ্লিকেশনে সার্ভার ভ্যালিডেশন প্রয়োজন)
+            if(username === "admin" && password === "admin123") {
+                showSuccess('adminSuccess', 'অ্যাডমিন লগইন সফল! অ্যাডমিন প্যানেলে রিডাইরেক্ট হচ্ছে...');
+                // প্রকৃত অ্যাপে রিডাইরেক্ট কোড থাকবে
+                setTimeout(() => {
+                    alert('অ্যাডমিন লগইন সফল! প্রকৃত অ্যাপ্লিকেশনে এখানে অ্যাডমিন প্যানেলে রিডাইরেক্ট হবে।');
+                }, 1500);
+            } else {
+                showError('adminError', 'ভুল অ্যাডমিন ইউজারনেম বা পাসওয়ার্ড');
+            }
+        });
+
+        // সাফল্য মেসেজ প্রদর্শন ফাংশন
+        function showSuccess(elementId, message) {
+            const successElement = document.getElementById(elementId);
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            
+            // এরর মেসেজ লুকানো
+            const errorElementId = elementId.replace('Success', 'Error');
+            document.getElementById(errorElementId).style.display = 'none';
+            
+            // 5 সেকেন্ড পর মেসেজ লুকানো
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // এরর মেসেজ প্রদর্শন ফাংশন
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // সাফল্য মেসেজ লুকানো
+            const successElementId = elementId.replace('Error', 'Success');
+            if(document.getElementById(successElementId)) {
+                document.getElementById(successElementId).style.display = 'none';
+            }
+            
+            // 5 সেকেন্ড পর মেসেজ লুকানো
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // 4D অ্যানিমেশন ইফেক্ট - ফর্ম ঘোরানোর এফেক্ট
+        const formBoxes = document.querySelectorAll('.form-box');
+        formBoxes.forEach(box => {
+            box.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                box.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            box.addEventListener('mouseenter', () => {
+                box.style.transition = 'all 0.1s ease';
+            });
+
+            box.addEventListener('mouseleave', () => {
+                box.style.transform = 'translateY(-10px) rotateX(5deg)';
+                box.style.transition = 'all 0.5s ease';
+            });
+        });
+    </script>
+</body>
+</html>
